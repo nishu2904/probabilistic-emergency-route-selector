@@ -81,3 +81,41 @@ print(
     "expected_time"
   )]
 )
+route_expected_times <- c()
+
+for (route in all_routes) {
+  
+  total_expected_time <- 0
+  
+  for (i in 1:(length(route) - 1)) {
+    
+    from_node <- V(road_graph)[route[i]]$name
+    to_node <- V(road_graph)[route[i + 1]]$name
+    
+    road <- roads[
+      roads$from == from_node & roads$to == to_node,
+    ]
+    
+    total_expected_time <- total_expected_time +
+      road$expected_time
+  }
+  
+  route_expected_times <- c(
+    route_expected_times,
+    total_expected_time
+  )
+}
+
+print(route_expected_times)
+
+print(
+  roads[, c(
+    "from",
+    "to",
+    "base_time_min",
+    "traffic_prob",
+    "delay_prob",
+    "accident_prob",
+    "expected_time"
+  )]
+)
